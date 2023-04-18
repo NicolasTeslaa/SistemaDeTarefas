@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SistemaDeTarefas.Models;
 
 namespace SistemaDeTarefas.Controllers
@@ -8,11 +7,11 @@ namespace SistemaDeTarefas.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-
         [HttpGet]
-        public ActionResult<List<UsuarioModel>> BuscarTodosUsuarios() 
+        public ActionResult<List<UsuarioModel>> BuscarTodosUsuarios()
         {
             return Ok();
         }
+        
     }
 }

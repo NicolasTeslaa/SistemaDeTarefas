@@ -27,7 +27,6 @@ namespace SistemaDeTarefas.Repositorios
         {
             await _dbContext.Usuarios.AddAsync(usuario);
             await _dbContext.SaveChangesAsync();
-
             return usuario;
         }
 
