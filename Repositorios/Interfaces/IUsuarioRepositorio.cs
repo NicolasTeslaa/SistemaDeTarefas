@@ -2,7 +2,7 @@
 
 namespace SistemaDeTarefas.Repositorios.Interfaces
 {
-    public interface UsuarioRepositorio
+    public interface IUsuarioRepositorio
     {
         Task<List<UsuarioModel>> GetAll();
         Task<UsuarioModel> GetById(int id);

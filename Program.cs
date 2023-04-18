@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaDeTarefas.Data;
 using SistemaDeTarefas.Repositorios;
+using SistemaDeTarefas.Repositorios.Interfaces;
 
 namespace SistemaDeTarefas
 {
@@ -18,7 +19,7 @@ namespace SistemaDeTarefas
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-           
+
 
             builder.Services.AddEntityFrameworkSqlServer()
                 .AddDbContext<SistemaDeTarefasDBContext>(
