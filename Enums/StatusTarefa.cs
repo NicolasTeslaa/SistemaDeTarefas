@@ -10,7 +10,7 @@ namespace SistemaDeTarefas.Enumns
         [Description("Em Andamento")]
         EmAndamento = 2,
 
-        [Description("Conlcluido")]
+        [Description("Concluido")]
         Concluido = 3
     }
 }
