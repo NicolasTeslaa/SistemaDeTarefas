@@ -25,10 +25,10 @@ namespace SistemaDeTarefas.Controllers
             return Ok(usuario);
         }
         [HttpPost]
-        public async Task<ActionResult<UsuarioModel>> Create([FromBody] UsuarioModel usuario)
+        public async Task<ActionResult<UsuarioModel>> Create([FromBody] UsuarioModel usuarioModel)
         {
-            await _usuarioRepositorio.Create(usuario);
-            return Ok(usuario);
+            await _usuarioRepositorio.Create(usuarioModel);
+            return Ok(usuarioModel);
         }
 
     }
