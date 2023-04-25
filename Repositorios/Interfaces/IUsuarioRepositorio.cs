@@ -4,10 +4,10 @@ namespace SistemaDeTarefas.Repositorios.Interfaces
 {
     public interface IUsuarioRepositorio
     {
-        Task<List<UsuarioModel>> GetAll();
-        Task<UsuarioModel> GetById(int id);
-        Task<UsuarioModel> Create(UsuarioModel usuario);
-        Task<UsuarioModel> Update(UsuarioModel usuario, int id);
-        Task<bool> Delete(int id);
+        Task<List<UsuarioUpdateModel>> GetAll();
+        Task<UsuarioUpdateModel> GetById(string id);
+        Task<UsuarioCreateModel> Create(UsuarioCreateModel usuario);
+        Task<UsuarioUpdateModel> Update(UsuarioUpdateModel usuario, string id);
+        Task<bool> Delete(string id);
     }
 }

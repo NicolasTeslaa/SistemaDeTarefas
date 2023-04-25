@@ -3,9 +3,9 @@ using SistemaDeTarefas.Models;
 
 namespace SistemaDeTarefas.Data.Map
 {
-    public class UsuarioMap : IEntityTypeConfiguration<UsuarioModel>
+    public class UsuarioMap : IEntityTypeConfiguration<UsuarioUpdateModel>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<UsuarioModel> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<UsuarioUpdateModel> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Nome).IsRequired().HasMaxLength(255);

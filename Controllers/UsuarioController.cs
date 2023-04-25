@@ -13,37 +13,40 @@ namespace SistemaDeTarefas.Controllers
         {
             _usuarioRepositorio = usuarioRepositorio;
         }
-        [HttpGet("/Usuario/GetAll")]
-        public ActionResult<List<UsuarioModel>> GetAll()
+
+        [HttpGet("GetAll")]
+        public ActionResult<List<UsuarioUpdateModel>> GetAll()
         {
             return Ok();
         }
-        [HttpGet("/Usuario/GetById/{id}")]
-        public async Task<ActionResult<UsuarioModel>> GetById(int id)
+
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<UsuarioUpdateModel>> GetById(string id)
         {
-            UsuarioModel usuario = await _usuarioRepositorio.GetById(id);
+            UsuarioUpdateModel usuario = await _usuarioRepositorio.GetById(id);
             return Ok(usuario);
         }
-        [HttpPost("/Usuario/Create")]
-        public async Task<ActionResult<UsuarioModel>> Create([FromBody] UsuarioModel usuarioModel)
+
+        [HttpPost("Create")]
+        public async Task<ActionResult<UsuarioCreateModel>> Create([FromBody] UsuarioCreateModel usuarioModel)
         {
             await _usuarioRepositorio.Create(usuarioModel);
             return Ok(usuarioModel);
         }
 
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult<UsuarioModel>> Update([FromBody] UsuarioModel usuarioModel, int id)
+        public async Task<ActionResult<UsuarioUpdateModel>> Update([FromBody] UsuarioUpdateModel usuarioModel, string id)
         {
             usuarioModel.Id = id;
-            UsuarioModel usuario = await _usuarioRepositorio.Create(usuarioModel);
-            return Ok(usuario);
+            usuarioModel = await _usuarioRepositorio.Create(usuarioModel);
+            return Ok(usuarioModel);
         }
+
         [HttpDelete("Delete/{id}")]
-          public async Task<ActionResult<UsuarioModel>> Delete(int id)
+        public async Task<ActionResult<UsuarioUpdateModel>> Delete(string id)
         {
             bool apagado = await _usuarioRepositorio.Delete(id);
             return Ok(apagado);
         }
-
     }
 }

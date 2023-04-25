@@ -12,36 +12,45 @@ namespace SistemaDeTarefas.Repositorios
         {
             _dbContext = sistemaDeTarefasDBContext;
         }
-        public async Task<UsuarioModel> GetById(int id)
+
+        public async Task<UsuarioUpdateModel> GetById(string id)
         {
             return await _dbContext.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<List<UsuarioModel>> GetAll()
+
+        public async Task<List<UsuarioUpdateModel>> GetAll()
         {
             return await _dbContext.Usuarios.ToListAsync();
         }
-        public async Task<UsuarioModel> Create(UsuarioModel usuario)
+
+        public async Task<UsuarioCreateModel> Create(UsuarioCreateModel usuario)
         {
-            await _dbContext.Usuarios.AddAsync(usuario);
+            var novoUsuario = new UsuarioCreateModel
+            {
+                Id = Guid.NewGuid().ToString(),
+            };
+            await _dbContext.Usuarios.AddAsync(novoUsuario);
             await _dbContext.SaveChangesAsync();
             return usuario;
         }
-        public async Task<UsuarioModel> Update(UsuarioModel usuario, int id)
+
+        public async Task<UsuarioUpdateModel> Update(UsuarioUpdateModel usuario, string id)
         {
-            UsuarioModel usuarioPorId = await GetById(id);
+            UsuarioUpdateModel usuarioPorId = await GetById(id);
             if (usuarioPorId == null)
             {
                 throw new Exception("Usuario não encontrado");
             }
-            usuarioPorId.Nome = usuario.Nome; 
+            usuarioPorId.Nome = usuario.Nome;
             usuarioPorId.Email = usuario.Email;
             _dbContext.Usuarios.Update(usuarioPorId);
             await _dbContext.SaveChangesAsync();
             return usuarioPorId;
         }
-        public async Task<bool> Delete(int id)
+
+        public async Task<bool> Delete(string id)
         {
-            UsuarioModel usuarioPorId = await GetById(id);
+            UsuarioUpdateModel usuarioPorId = await GetById(id);
             if (usuarioPorId == null)
             {
                 throw new Exception("Usuario não encontrado");
