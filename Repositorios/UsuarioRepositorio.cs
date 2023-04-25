@@ -33,7 +33,7 @@ namespace SistemaDeTarefas.Repositorios
             {
                 throw new Exception("Usuario não encontrado");
             }
-            usuarioPorId.Nome = usuario.Nome;
+            usuarioPorId.Nome = usuario.Nome; 
             usuarioPorId.Email = usuario.Email;
             _dbContext.Usuarios.Update(usuarioPorId);
             await _dbContext.SaveChangesAsync();
