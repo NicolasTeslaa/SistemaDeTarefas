@@ -56,26 +56,26 @@ namespace SistemaDeTarefas.Controllers
         }
 
         [HttpPut("Update/{id}")]
-    public async Task<IActionResult> Update(string id, [FromBody] UsuarioUpdateModel usuario)
-    {
-        var usuarioExistente = await _context.Usuarios.FindAsync(id);
-
-        if (usuarioExistente == null)
+        public async Task<IActionResult> Update(string id, [FromBody] UsuarioUpdateModel usuario)
         {
-            return NotFound();
+            var usuarioExistente = await _context.Usuarios.FindAsync(id);
+
+            if (usuarioExistente == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            usuarioExistente.Email = usuario.Email;
+            usuarioExistente.Nome = usuario.Nome;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        usuarioExistente.Email = usuario.Email;
-        usuarioExistente.Nome = usuario.Nome;
-
-        await _context.SaveChangesAsync();
-
-        return Ok();
-    }
     }
 }
