@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SistemaDeTarefas.Data;
+using SistemaDeTarefas.Entities.Models;
 using SistemaDeTarefas.Models;
-using SistemaDeTarefas.Repositorios.Interfaces;
 
 namespace SistemaDeTarefas.Controllers
 {
@@ -8,45 +9,73 @@ namespace SistemaDeTarefas.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly IUsuarioRepositorio _usuarioRepositorio;
-        public UsuarioController(IUsuarioRepositorio usuarioRepositorio)
+        private readonly SistemaDeTarefasDBContext _context;
+        public UsuarioController(SistemaDeTarefasDBContext context)
         {
-            _usuarioRepositorio = usuarioRepositorio;
+            _context = context;
         }
 
+        private readonly SistemaDeTarefasDBContext context;
+
         [HttpGet("GetAll")]
-        public ActionResult<List<UsuarioUpdateModel>> GetAll()
+        public IEnumerable<Usuario> Get()
         {
-            return Ok();
+            return _context.Usuarios.ToList();
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<UsuarioUpdateModel>> GetById(string id)
+        public ActionResult<Usuario> GetById(string id)
         {
-            UsuarioUpdateModel usuario = await _usuarioRepositorio.GetById(id);
-            return Ok(usuario);
+            var usuario = _context.Usuarios.FirstOrDefault(c => c.Id == id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return usuario;
         }
 
         [HttpPost("Create")]
-        public async Task<ActionResult<UsuarioCreateModel>> Create([FromBody] UsuarioCreateModel usuarioModel)
+        public async Task<IActionResult> Create([FromBody] UsuarioCreateModel usuarioModel)
         {
-            await _usuarioRepositorio.Create(usuarioModel);
-            return Ok(usuarioModel);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var novoUsuario = new Usuario
+            {
+                Id = Guid.NewGuid().ToString(),
+                Email = usuarioModel.Email,
+                Nome = usuarioModel.Nome
+            };
+
+            _context.Usuarios.Add(novoUsuario);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult<UsuarioUpdateModel>> Update([FromBody] UsuarioUpdateModel usuarioModel, string id)
+    public async Task<IActionResult> Update(string id, [FromBody] UsuarioUpdateModel usuario)
+    {
+        var usuarioExistente = await _context.Usuarios.FindAsync(id);
+
+        if (usuarioExistente == null)
         {
-            usuarioModel.Id = id;
-            usuarioModel = await _usuarioRepositorio.Create(usuarioModel);
-            return Ok(usuarioModel);
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<UsuarioUpdateModel>> Delete(string id)
+        if (!ModelState.IsValid)
         {
-            bool apagado = await _usuarioRepositorio.Delete(id);
-            return Ok(apagado);
+            return BadRequest(ModelState);
         }
+
+        usuarioExistente.Email = usuario.Email;
+        usuarioExistente.Nome = usuario.Nome;
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
     }
 }

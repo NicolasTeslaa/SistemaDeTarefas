@@ -1,4 +1,4 @@
-namespace SistemaDeTarefas.Models
+namespace SistemaDeTarefas.Entities.Models
 {
     public class UsuarioCreateModel
     {
